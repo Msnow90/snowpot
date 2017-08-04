@@ -1,0 +1,15 @@
+{
+  "name": "snowpot",
+  "version": "1.0.0",
+  "description": "A honeypot built by Matthew Snow, which can be integrated into express middleware.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Snow",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.3",
+    "router": "^1.3.1"
+  }
+}

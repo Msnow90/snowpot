@@ -18,5 +18,7 @@ describe('If an instance of Snowpot is used on a server...', () => {
         expect(res.body).to.be.deep.equal(mockData.users)
       })
   })
+
+
 })
 

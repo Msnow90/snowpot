@@ -23,7 +23,7 @@ const mockRoutes = [
     mockDataSet: mockData.users,
     method: 'GET',
     action: function (req, res, next) {
-      if (!this.blacklist[req.host]) return next();
+      if (!this.blacklist[req.hostname]) return next();
       res.json(this.mockDataSet);
     }
   }
@@ -34,7 +34,7 @@ const newPot = new Snowpot({}, mockRoutes);
 
 // automatically blacklist the user for test purposes
 app.use((req, res, next) => {
-  newPot.blacklistUser(req.host);
+  newPot.blacklistUser(req.hostname);
   next();
 })
 

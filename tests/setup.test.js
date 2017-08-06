@@ -23,6 +23,10 @@ describe('The Snowpot class...', () => {
       method: 'GET'
     }
     const newPotWithRoutes = new Snowpot([], [mockRoute]);
-    expect(newPotWithRoutes.router.stack).to.be.an('array').to.have.length.greaterThan(2);
+    expect(newPotWithRoutes.router.stack).to.be.an('array').to.have.length(2);
+  })
+
+  it('loads the default rules middleware...', () => {
+    expect(newPot.customRules.stack).to.be.an('array').to.have.length(9);
   })
 })

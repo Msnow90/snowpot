@@ -16,17 +16,14 @@ function Snowpot(customRules = [], mockRoutes = []) {
   // generate initial middleware
   this.customRules.use('/', (req, res, next) => {
     const newRoute = defaultMiddleware[0](this.blacklist);
-    console.log('1', newRoute);
     newRoute.call(this, req, res, next);
   })
   this.customRules.use('/', (req, res, next) => {
     const newRoute = defaultMiddleware[1](this.ipTable);
-    console.log('2', newRoute);
     newRoute.call(this, req, res, next);
   })
   this.customRules.use('/', (req, res, next) => {
     const newRoute = defaultMiddleware[2](this.ipTable, this.blacklist);
-    console.log('3', newRoute);
     newRoute.call(this, req, res, next);
   })
 
@@ -39,10 +36,6 @@ function Snowpot(customRules = [], mockRoutes = []) {
       route.action.call(this, req, res, next);
     });
   })
-
-  // generate ruleset middleware (1st one creates unique hash if none exist)
-  this.customRules.use(defaultMiddleware[0])
-  this.customRules.use(defaultMiddleware[1])
 }
 
 Snowpot.prototype.blacklistUser = function (ip) {

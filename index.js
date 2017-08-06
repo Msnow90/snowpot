@@ -18,12 +18,19 @@ function Snowpot(customRules = [], mockRoutes = []) {
     const newRoute = defaultMiddleware[0](this.blacklist);
     newRoute.call(this, req, res, next);
   })
+
   this.customRules.use('/', (req, res, next) => {
     const newRoute = defaultMiddleware[1](this.ipTable);
     newRoute.call(this, req, res, next);
   })
+
   this.customRules.use('/', (req, res, next) => {
     const newRoute = defaultMiddleware[2](this.ipTable, this.blacklist);
+    newRoute.call(this, req, res, next);
+  })
+
+    this.customRules.use('/', (req, res, next) => {
+    const newRoute = defaultMiddleware[3](this.blacklist);
     newRoute.call(this, req, res, next);
   })
 

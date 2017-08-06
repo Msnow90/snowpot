@@ -27,6 +27,6 @@ describe('The Snowpot class...', () => {
   })
 
   it('loads the default rules middleware...', () => {
-    expect(newPot.customRules.stack).to.be.an('array').to.have.length(9);
+    expect(newPot.customRules.stack).to.be.an('array').to.have.length(12);
   })
 })

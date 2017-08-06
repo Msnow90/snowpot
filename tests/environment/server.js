@@ -23,7 +23,7 @@ const mockRoutes = [
     mockDataSet: mockData.users,
     method: 'GET',
     action: function (req, res, next) {
-      if (!this.blacklist[req.hostname]) return next();
+      //if (!this.blacklist[req.hostname]) return next();
       res.json(this.mockDataSet);
     }
   }

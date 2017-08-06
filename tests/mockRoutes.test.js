@@ -19,6 +19,12 @@ describe('If an instance of Snowpot is used on a server...', () => {
       })
   })
 
-
+  it('sends mock data is a user is blacklisted', () => {
+    return agent.get('/users')
+      .expect(200)
+      .expect(res => {
+        expect(res.body).to.be.deep.equal(mockData.users);
+      })
+  })
 })
 

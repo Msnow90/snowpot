@@ -1,59 +1,54 @@
 const router = require('express').Router();
+const router2 = require('express').Router();
 
 // require default rules
 const defaultMiddleware = require('./lib/defaultRules');
 
-class Snowpot {
-  constructor(customRules = [], mockRoutes = []) {
+function Snowpot(customRules = [], mockRoutes = []) {
 
-    // contains the ip table of the instance
-    this.ipTable = {};
+  // contains the ip table of the instance
+  this.ipTable = {};
+  this.blacklist = {};
 
-    // hold middleware generated from custom rules
-    this.customRules = router;
+  // hold middleware generated from custom rules
+  this.customRules = router;
 
-    // generate initial middleware
-    defaultMiddleware.forEach(rule => {
-      this.customRules.use(rule(this.ipTable));
-    })
+  // generate initial middleware
+  this.customRules.use('/', (req, res, next) => {
+    const newRoute = defaultMiddleware[0](this.blacklist);
+    console.log('1', newRoute);
+    newRoute.call(this, req, res, next);
+  })
+  this.customRules.use('/', (req, res, next) => {
+    const newRoute = defaultMiddleware[1](this.ipTable);
+    console.log('2', newRoute);
+    newRoute.call(this, req, res, next);
+  })
+  this.customRules.use('/', (req, res, next) => {
+    const newRoute = defaultMiddleware[2](this.ipTable, this.blacklist);
+    console.log('3', newRoute);
+    newRoute.call(this, req, res, next);
+  })
 
-    // router container
-    this.router = router;
-    // generate mock routes and behavior and make available to client through router object
+  // router container
+  this.router = router2;
+  // generate mock routes and behavior and make available to client through router object
+  mockRoutes.forEach(route => {
+    this.router[route.method.toLowerCase()]('/mock' + route.url, (req, res, next) => {
+      this.mockDataSet = route.mockDataSet;
+      route.action.call(this, req, res, next);
+    });
+  })
 
-    // **** instead just take in an array of urls and have the custom rule middleware do a request to those routes when appro.
-    mockRoutes.forEach(route => {
-      this.router.use('/mock' + route.url, route.action);
-    })
+  // generate ruleset middleware (1st one creates unique hash if none exist)
+  this.customRules.use(defaultMiddleware[0])
+  this.customRules.use(defaultMiddleware[1])
+}
 
-    // generate ruleset middleware (1st one creates unique hash if none exist)
-    this.customRules.use((req, res, next) => {
-
-    })
-  }
-  // need to bind these methods into selected routes
-  logActivity() {
-
-  }
-
-  rejectRequest() {
-
+Snowpot.prototype.blacklistUser = function (ip) {
+  this.blacklist[ip] = {
+    returnMockData: true
   }
 }
 
-// tests
-const newPot = new Snowpot();
-console.log(newPot.customRules);
-
-
-
-// // export the honeypot, custom rules define honeypot's reactions
-// // mockRoutes construct the routes and desired behavior
-// module.exports = (customRules = [], mockRoutes = []) => {
-//   // generate a route for each item provided in mockRoutes
-//   mockRoutes.map(mockRoute => {
-//     router.use(mockRoute.url, mockRoute.action);
-//   })
-
-//   return router;
-// }
+module.exports = Snowpot;

@@ -10,12 +10,12 @@ const agent = request.agent(app);
 describe('If an instance of Snowpot is used on a server...', () => {
 
   // mock route and data is constructed in environment/server which is app
-  it('a route will retrieve the mock data set...', () => {
+  it('will be unable to reach mock routes directly...', () => {
     const url = '/mock/users';
     return agent.get(url)
-      .expect(200)
+      .expect(404)
       .expect(res => {
-        expect(res.body).to.be.deep.equal(mockData.users)
+        expect(res.body.message).to.be.deep.equal('Not found.')
       })
   })
 

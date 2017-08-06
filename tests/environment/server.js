@@ -46,7 +46,8 @@ app.get('/', function (req, res) {
 })
 
 app.use((req, res) => {
-  res.send('\n*******The end....\n******')
+  res.status(404);
+  res.json({message: 'Not found.'});
 })
 const port = (process.env.PORT) ? process.env.PORT : 7777;
 

@@ -23,7 +23,9 @@ const mockRoutes = [
     mockDataSet: mockData.users,
     method: 'GET',
     action: function (req, res, next) {
-      //if (!this.blacklist[req.hostname]) return next();
+      // *** this if statement is what keeps clients from being able to visit
+      // a mock route
+      if (!this.blacklist[req.hostname]) return next();
       res.json(this.mockDataSet);
     }
   }
